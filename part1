@@ -1,0 +1,64 @@
+import java.util.*;
+
+public class GetCharacterCount{
+
+     public static void main(String []args){
+        String messageString = "VQXVBWFNQVBQDMVEZVQECMEEGZDVJXGRDMTIXRJWDCMEVVQEBDIZFEWBUEWEBFIEGVJDHHXXGZIDDPEZXVXIFJEJDHHXXBVQECMEBVFDGUXBEKFZEGVIRHEXGVLDWQEWZDVREBBQDMVEZXIFJEZDVJDHEDGJDHHXVQEGWDXWEZVQECMEEGJDHHXXGZXIFJEADFGEZVQETWDJEBBFDGJDHHXUDGZEWFGNKEWRHMJQUQXVUDMIZQXTTEGGEOVZDVFVBFVBXKEWRLFGEZXRBXFZXVFHFZKDFJEXVQEWBFZEZDVBQEUXBUXIPFGNSRVQEUQFVEWXSSFVJDHHXUQDUXBTEETFGNXGOFDMBIRFGVDQEWLXJEZDVKEWRJDHHXBXFZXIFJEUQEWEBVQEZMJQEBBQMBQQMBQBXFZVQEWXSSFVFGXIDUJDHHXQMWWFEZVDGE";
+        //String messageString = "VQXVB WFNQV BQDMVEZ VQE CMEEG ZDVJXGRDMTIXRJWDCMEV VQE BDIZFEWB UEWE BFIEGV JDHHX XGZ IDDPEZ XV XIFJE JDHHX XB VQE CMEBVFDG UXB EKFZEGVIR HEXGV LDW QEW ZDV REB BQDMVEZ XIFJE ZDV JDHE DG JDHHX VQE GWDXWEZ VQE";
+        
+        char[] message = messageString.toCharArray();
+        
+        HashMap<Character, Integer> countMap = new HashMap<Character, Integer>();
+        HashMap<Character, Character> subsitutionMap = new HashMap<Character, Character>();
+        
+        // count each character in encrypted message
+        for (char c : message) {
+            if (countMap.containsKey(c)) {
+                countMap.put(c, countMap.get(c) + 1);
+            } else {
+                countMap.put(c, 1);
+            }
+        }
+ 
+        // Output letter counts
+        for (Map.Entry charEntry : countMap.entrySet()) {
+            System.out.println(charEntry.getKey() + ": " + charEntry.getValue());
+        }
+        
+        // Create subistution mapping
+        subsitutionMap.put('A','J');
+        subsitutionMap.put('B','S'); 
+        subsitutionMap.put('C','Q');
+        subsitutionMap.put('D','O'); 
+        subsitutionMap.put('E','E');
+        subsitutionMap.put('F','I'); 
+        subsitutionMap.put('G','N');
+        subsitutionMap.put('H','M');
+        subsitutionMap.put('I','L'); 
+        subsitutionMap.put('J','C');
+        subsitutionMap.put('K','V'); 
+        subsitutionMap.put('L','F');
+        subsitutionMap.put('O','X');
+        subsitutionMap.put('M','U');
+        subsitutionMap.put('N','G'); 
+        subsitutionMap.put('P','K');
+        subsitutionMap.put('Q','H'); 
+        subsitutionMap.put('R','Y'); 
+        subsitutionMap.put('S','B');
+        subsitutionMap.put('T','P'); 
+        subsitutionMap.put('U','W'); 
+        subsitutionMap.put('V','T');
+        subsitutionMap.put('W','R'); 
+        subsitutionMap.put('X','A');
+        subsitutionMap.put('Y','Z');
+        subsitutionMap.put('Z','D');
+        
+        // Apply mapping for all letters in message
+        for (int c = 0; c < messageString.length(); c ++) {
+            char letter = message[c];
+            if (letter != ' ')
+                message[c] = subsitutionMap.get(letter);
+        }
+        System.out.println(message);
+     }
+}
