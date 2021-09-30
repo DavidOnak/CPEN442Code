@@ -1,0 +1,100 @@
+import java.util.*;
+
+public class CRC32 { 
+
+    public static void main(String[] args) { 
+        
+        //String x = "d19f2e9e"; 
+        String x = "fj78sj9sjd9fhfjf9jdsjf9jdhf9jgid"; 
+        //String x = "675754fb5e3a2d2c25a966d3e23cf3d3";
+        
+        int chosenX = crcCalculation(x.getBytes());
+        
+        System.out.println("Have an x of: "+ x + " and it has a hash of: "+ Integer.toHexString(chosenX));
+        
+    
+        for(int c = 0; c < 1000000; c++) {
+            String randString = getAlphaNumericString(32);
+            //System.out.println(crcCalculation(randString.getBytes()));
+            if (crcCalculation(randString.getBytes()) == chosenX) System.out.println("Got a match with "+ randString);
+            //permutateY(getAlphaNumericString(32).toCharArray(), 4, chosenX);
+        }
+        
+
+    }
+    
+    public static void permutateY(char y[], int i, int chosenX) {
+     
+        if (i == 1) {
+            //System.out.println("Got a string with "+ String. valueOf(y));
+            if (crcCalculation(String.valueOf(y).getBytes()) == chosenX) System.out.println("Got a match with "+ String. valueOf(y));
+            return;
+        } else {
+            // Recursavly get each permutation of y
+            for (int j = i; j > 0; j--) {
+                char temp = y[j];
+                y[j] = y[i];
+                y[i] = temp;
+                
+                permutateY(y, i-1, chosenX);
+                 
+                // switch back
+                y[i] = y[j];
+                y[j] = temp;
+            }
+        }
+    }
+    
+    // Reference for this funtion is: https://titanwolf.org/Network/Articles/Article?AID=29ddd133-3458-4d1e-a801-0fba628ddaef#gsc.tab=0
+    // The main part of this funtion is NOT written from me but taken from this source
+    private static int crcCalculation(byte[] bytes) {
+        int crc  = 0xFFFFFFFF; 
+        int poly = 0xEDB88320;  
+
+        for (byte b : bytes) {
+            int temp = (crc ^ b) & 0xff;
+
+           //read 8 bits one at a time
+            for (int i = 0; i < 8; i++) {
+                if ((temp & 1) == 1) temp = (temp >>> 1) ^ poly;
+                else                 temp = (temp >>> 1);
+            }
+            crc = (crc >>> 8) ^ temp;
+        }
+
+       //flip bits
+        return crc ^ 0xffffffff;
+    }
+    
+
+  
+    // Got this method from the following source, https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
+    // function to generate a random string of length n
+    static String getAlphaNumericString(int n)
+    {
+  
+        // chose a Character random from this String
+        String AlphaNumericString = //"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                     "0123456789"
+                                    + "abcdefghijklmnopqrstuvxyz";
+  
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+  
+        for (int i = 0; i < n; i++) {
+  
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                = (int)(AlphaNumericString.length()
+                        * Math.random());
+  
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                          .charAt(index));
+        }
+  
+        return sb.toString();
+    }
+
+}
